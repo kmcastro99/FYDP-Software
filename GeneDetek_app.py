@@ -11,7 +11,6 @@ def read_calibration_curve_csv(filename):
     # Read calibration curve data from CSV
     try:
         calibration_data = pd.read_csv(filename)
-        calibration_data = pd.read_csv(filename)
         concentration = calibration_data['Concentration']
         current_response = calibration_data['Current']
         return concentration, current_response
@@ -22,13 +21,14 @@ def read_calibration_curve_csv(filename):
 def create_calibration_function(concentration, current_response):
     # Interpolate the calibration curve data to obtain a function
     # Use the 'fill_value' parameter to allow extrapolation
-    current_response = current_response[2,:]
-    concentration = concentration[2,:]
-    calibration_function = interp1d(current_response, concentration, kind='linear', fill_value='extrapolate')
-    
+    current_response = current_response[2:]
+    concentration = concentration[2:]
+    calibration_function = interp1d(concentration, current_response, kind='linear', fill_value='extrapolate')
     return calibration_function
 
 def plot_calibration_curve(concentration, current_response):
+    current_response = current_response[2:]
+    concentration = concentration[2:]
     # Plot the calibration curve and the interpolation function
     fig, ax = plt.subplots()
     ax.scatter(concentration, current_response, color='blue', label='Calibration data')
