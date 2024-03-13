@@ -59,7 +59,7 @@ def determine_steady_state_current(amperometric_data, window_size=10):
 
 def determine_peak_current(cyclic_voltammogram):
     # Determine the peak current from the cyclic voltammogram
-    peak_current = cyclic_voltammogram.iloc[:, 1].max()
+    peak_current = cyclic_voltammogram.iloc[5,:].max()
     return peak_current
 
 def calculate_lod_from_calibration(concentration, current_response):
@@ -114,9 +114,9 @@ def main():
     if cv_file:
         if st.button('Calculate Result'):
             # Process CV file
-            amperometric_currents = read_csv_result(cv_file)
-            current_values = amperometric_currents.iloc[3:]  # Only take numeric values
-            
+            result_currents = read_csv_result(cv_file)
+            #current_values = result_currents.iloc[3:]  # Only take numeric values
+            current_values = result_currents.iloc[5:]
             calibration_func = create_calibration_function(calibration_concentration, calibration_current)
 
             # Determine steady-state current and SNR
