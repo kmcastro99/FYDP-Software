@@ -60,7 +60,7 @@ def determine_steady_state_current(amperometric_data, window_size=10):
 def determine_peak_current(cyclic_voltammogram):
     # Determine the peak current from the cyclic voltammogram
     current_columns = [col for col in cyclic_voltammogram.columns if 'µA' in col]
-    numeric_data = data[current_columns].apply(pd.to_numeric, errors='coerce')
+    numeric_data = cyclic_voltammogram[current_columns].apply(pd.to_numeric, errors='coerce')
     numeric_data = numeric_data.dropna()
 
     # Find the peak current across all 'µA' columns
