@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 from scipy.stats import linregress
-import streamlit as st
 import os
 
 def read_calibration_curve_csv(filename):
@@ -133,7 +132,7 @@ def main():
             st.error("Please enter the missing information")
         else:
             st.write("Generating report...")
-        
+
 
 if __name__ == '__main__':
     main()
