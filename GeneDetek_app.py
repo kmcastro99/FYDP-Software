@@ -146,16 +146,8 @@ def main():
             st.write("Generating report...")
             st.write("Report generated successfully!")
             st.write("Download the report below.")
-            if st.button("Download Report"):
-                # Create the report
-                r = requests.get(doc_url)
-                if r.status_code == 200:
-                     # Encode the content to base64
-                    b64 = base64.b64encode(r.content).decode()
-                    href = f'<a href="data:application/octet-stream;base64,{b64}" download="{doc_name}">Download Word Document</a>'
-                    st.markdown(href, unsafe_allow_html=True)
-                else:
-                    st.error('Failed to download document. Please check the URL and try again.')
+            if st.download_button("Download Report", doc_url, label="Download Report"):
+                st.success("Report downloaded successfully!")
 
 if __name__ == '__main__':
     main()
