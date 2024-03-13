@@ -77,11 +77,11 @@ def determine_result(calibration_function, steady_state_current, lod_concentrati
 #new_path = r'C:\Users\karla\OneDrive\Documents\NE 4B\NE 409\FYDP-Software'
 calibration_file_path = 'data/Calibration_curve.csv'
 calibration_concentration, calibration_current = read_calibration_curve_csv(calibration_file_path)
-doc_url = 'Report/Report_Positive.docx'
+doc_url = 'https://github.com/kmcastro99/FYDP-Software/blob/388595c03638b3932c6110368186b42ae759769a/Report/Report_Positive.docx'
 doc_name = 'Report_Positive.docx'
 # Streamlit app
 def main():
-    st.set_page_config(page_title="TBD",page_icon=":dna:",layout="centered")
+    st.set_page_config(page_title="GeneDetek",page_icon=":dna:",layout="centered")
     st.title("GeneDetek :dna:")
     st.write("")
     st.write("We are supporting personalized medicine for depression treatment: Your Gene, Your Medicine")
@@ -146,8 +146,18 @@ def main():
             st.write("Generating report...")
             st.write("Report generated successfully!")
             st.write("Download the report below.")
-            if st.download_button("Download Report", doc_url, label="Download Report"):
-                st.success("Report downloaded successfully!")
+            if st.button("Download Report"):
+                r = requests.get(doc_url)
+                if r.status_code == 200:
+                    st.download_button(
+                        label="Download Report",
+                        data=r.content,
+                        file_name=doc_name,
+                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    )
+                else:
+                    st.error("Failed to download the report.")
+                
 
 if __name__ == '__main__':
     main()
