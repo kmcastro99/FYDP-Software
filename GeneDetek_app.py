@@ -18,14 +18,6 @@ def read_calibration_curve_csv(filename):
         st.error(f"Error reading {filename}: {e}")
         return None
 
-def read_calibration_curve_csv(filename):
-    try:
-        calibration_data = pd.read_csv(filename)
-        return calibration_data
-    except Exception as e:
-        st.error(f"Error reading {filename}: {e}")
-        return None
-
 def create_calibration_function(concentration, current_response):
     # Interpolate the calibration curve data to obtain a function
     # Use the 'fill_value' parameter to allow extrapolation
