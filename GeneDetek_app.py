@@ -70,7 +70,7 @@ def determine_result(calibration_function, steady_state_current, lod_concentrati
 
 # Process calibration file
 #new_path = r'C:\Users\karla\OneDrive\Documents\NE 4B\NE 409\FYDP-Software'
-calibration_file_path = 'data/Calibration_curve.csv'
+calibration_file_path = 'FYDP-Software/data/Calibration_curve.csv'
 calibration_concentration, calibration_current = read_calibration_curve_csv(calibration_file_path)
 
 # Streamlit app
