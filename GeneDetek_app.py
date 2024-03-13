@@ -57,6 +57,11 @@ def determine_steady_state_current(amperometric_data, window_size=10):
 
     return steady_state_current, snr
 
+def determine_peak_current(cyclic_voltammogram):
+    # Determine the peak current from the cyclic voltammogram
+    peak_current = cyclic_voltammogram.iloc[:, 1].max()
+    return peak_current
+
 def calculate_lod_from_calibration(concentration, current_response):
     # Perform a linear regression to get the slope (S) and intercept
     slope, intercept, r_value, p_value, std_err = linregress(concentration, current_response)
@@ -67,9 +72,9 @@ def calculate_lod_from_calibration(concentration, current_response):
     return lod
 
 
-def determine_result(calibration_function, steady_state_current, lod_concentration):
+def determine_result(calibration_function, peak_current, lod_concentration):
     # Determine if the steady-state current corresponds to a concentration above the LOD
-    concentration = calibration_function(steady_state_current)
+    concentration = calibration_function(peak_current)
     result = "Positive" if concentration >= lod_concentration else "Negative"
     return result
 
@@ -116,9 +121,9 @@ def main():
 
             # Determine steady-state current and SNR
             steady_state_current, snr = determine_steady_state_current(current_values)
-            
+            peak_current = determine_peak_current(current_values)
             # Determine result
-            overall_result = determine_result(calibration_func, steady_state_current, lod_concentration)
+            overall_result = determine_result(calibration_func, peak_current, lod_concentration)
             
             # Display result
             if overall_result == "Positive":
