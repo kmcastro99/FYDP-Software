@@ -4,7 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 from scipy.stats import linregress
-import os
+import base64
+import requests
 
 def read_calibration_curve_csv(filename):
     # Read calibration curve data from CSV
@@ -76,7 +77,8 @@ def determine_result(calibration_function, steady_state_current, lod_concentrati
 #new_path = r'C:\Users\karla\OneDrive\Documents\NE 4B\NE 409\FYDP-Software'
 calibration_file_path = 'data/Calibration_curve.csv'
 calibration_concentration, calibration_current = read_calibration_curve_csv(calibration_file_path)
-
+doc_url = 'Report/Report_Positive.docx'
+doc_name = 'Report_Positive.docx'
 # Streamlit app
 def main():
     st.set_page_config(page_title="TBD",page_icon=":dna:",layout="centered")
@@ -142,7 +144,18 @@ def main():
             st.error("Please enter the missing information")
         else:
             st.write("Generating report...")
-
+            st.write("Report generated successfully!")
+            st.write("Download the report below.")
+            if st.button("Download Report"):
+                # Create the report
+                r = requests.get(doc_url)
+                if r.status_code == 200:
+                     # Encode the content to base64
+                    b64 = base64.b64encode(r.content).decode()
+                    href = f'<a href="data:application/octet-stream;base64,{b64}" download="{doc_name}">Download Word Document</a>'
+                    st.markdown(href, unsafe_allow_html=True)
+                else:
+                    st.error('Failed to download document. Please check the URL and try again.')
 
 if __name__ == '__main__':
     main()
