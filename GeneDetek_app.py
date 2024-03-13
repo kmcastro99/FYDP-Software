@@ -22,6 +22,8 @@ def read_calibration_curve_csv(filename):
 def create_calibration_function(concentration, current_response):
     # Interpolate the calibration curve data to obtain a function
     # Use the 'fill_value' parameter to allow extrapolation
+    current_response = current_response[2,:]
+    concentration = concentration[2,:]
     calibration_function = interp1d(current_response, concentration, kind='linear', fill_value='extrapolate')
     
     return calibration_function
