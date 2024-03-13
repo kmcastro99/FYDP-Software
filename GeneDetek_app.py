@@ -90,6 +90,7 @@ def main():
     with col1:
         st.subheader('Calibration Curve')
         fig = plot_calibration_curve(calibration_concentration, calibration_current)
+        st.write(calibration_concentration, calibration_current)
         st.pyplot(fig)
 
     with col2:
