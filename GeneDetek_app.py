@@ -114,9 +114,9 @@ def main():
     if cv_file:
         if st.button('Calculate Result'):
             # Process CV file
-            amperometric_currents = read_csv_result(cv_file)
-            current_values = amperometric_currents.iloc[3:]  # Only take numeric values
-            
+            result_currents = read_csv_result(cv_file)
+            #current_values = result_currents.iloc[3:]  # Only take numeric values
+            current_values = result_currents.iloc[5:]
             calibration_func = create_calibration_function(calibration_concentration, calibration_current)
 
             # Determine steady-state current and SNR
