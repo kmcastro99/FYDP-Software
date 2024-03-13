@@ -35,14 +35,26 @@ def plot_calibration_curve(concentration, current_response):
     ax.legend()
     return fig
 
-def read_csv_result(file_path):
-    # Read the CSV file with UTF-16 encoding and flexible handling of inconsistencies
-    df = pd.read_csv(file_path, encoding='utf-16', sep=',', on_bad_lines='skip', engine='python')
-    # Skip the rows that are not numeric
-    numeric_data = pd.to_numeric(df.iloc[:, 1], errors='coerce')
-    # Drop NaN values that result from coercion errors (i.e., non-numeric data)
-    numeric_data = numeric_data.dropna().reset_index(drop=True)
+# def read_csv_result(file_path):
+#     # Read the CSV file with UTF-16 encoding and flexible handling of inconsistencies
+#     df = pd.read_csv(file_path, encoding='utf-16', sep=',', on_bad_lines='skip', engine='python')
+#     # Skip the rows that are not numeric
+#     numeric_data = pd.to_numeric(df.iloc[:, 1], errors='coerce')
+#     # Drop NaN values that result from coercion errors (i.e., non-numeric data)
+#     numeric_data = numeric_data.dropna().reset_index(drop=True)
 
+#     return numeric_data
+
+def read_csv_result(file_path):
+    data = pd.read_csv(file_path, skiprows=6)
+
+    # Extract columns that contain 'µA' in their header after skipping the appropriate rows
+    current_columns = [col for col in data.columns if 'µA' in col]
+
+    # Convert all values to numeric, coercing errors to NaN (not a number),
+    # and drop rows with NaN values that result from coercion
+    numeric_data = data[current_columns].apply(pd.to_numeric, errors='coerce')
+    numeric_data = numeric_data.dropna()
     return numeric_data
 
 def determine_steady_state_current(amperometric_data, window_size=10):
@@ -57,14 +69,10 @@ def determine_steady_state_current(amperometric_data, window_size=10):
 
     return steady_state_current, snr
 
-def determine_peak_current(cyclic_voltammogram):
-    # Determine the peak current from the cyclic voltammogram
-    current_columns = [col for col in cyclic_voltammogram.columns if 'µA' in col]
-    numeric_data = cyclic_voltammogram[current_columns].apply(pd.to_numeric, errors='coerce')
-    numeric_data = numeric_data.dropna()
+def determine_peak_current(data):
 
     # Find the peak current across all 'µA' columns
-    peak_current = numeric_data.max().max()
+    peak_current = data.max().max()
     return peak_current
 
 def calculate_lod_from_calibration(concentration, current_response):
