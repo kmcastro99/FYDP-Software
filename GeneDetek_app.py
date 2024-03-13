@@ -50,9 +50,6 @@ def read_csv_result(file_path):
         # Read the file with the appropriate handling for bad lines.
         # The 'on_bad_lines' parameter is set to 'skip' to ignore problematic lines.
         data = pd.read_csv(file_path, delimiter=',', skiprows=6,usecols=[1, 3, 5, 7], on_bad_lines='skip',encoding='utf-16')
-        
-        # Extract columns that contain 'µA' in their header after skipping the appropriate rows
-        #current_data = data.filter(regex='µA').apply(pd.to_numeric, errors='coerce').dropna()
         return data
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -128,13 +125,12 @@ def main():
         if st.button('Calculate Result'):
             # Process CV file
             result_currents = read_csv_result(cv_file)
-            #current_values = result_currents.iloc[3:]  # Only take numeric values
-            current_values = result_currents.iloc[5:]
+            # current_values = result_currents.iloc[5:]
             calibration_func = create_calibration_function(calibration_concentration, calibration_current)
 
             # Determine steady-state current and SNR
-            steady_state_current, snr = determine_steady_state_current(current_values)
-            peak_current = determine_peak_current(current_values)
+            # steady_state_current, snr = determine_steady_state_current(current_values)
+            peak_current = determine_peak_current(result_currents)
             # Determine result
             overall_result = determine_result(calibration_func, peak_current, lod_concentration)
             
