@@ -59,7 +59,12 @@ def determine_steady_state_current(amperometric_data, window_size=10):
 
 def determine_peak_current(cyclic_voltammogram):
     # Determine the peak current from the cyclic voltammogram
-    peak_current = cyclic_voltammogram.iloc[5,:].max()
+    current_columns = [col for col in cyclic_voltammogram.columns if 'µA' in col]
+    numeric_data = data[current_columns].apply(pd.to_numeric, errors='coerce')
+    numeric_data = numeric_data.dropna()
+
+    # Find the peak current across all 'µA' columns
+    peak_current = numeric_data.max().max()
     return peak_current
 
 def calculate_lod_from_calibration(concentration, current_response):
@@ -152,14 +157,18 @@ def main():
             st.write("Report generated successfully!")
             st.write("Download the report below.")
             if st.button("Download Report"):
-                r = requests.get(doc_url)
+                r = requests.get(doc_url, stream=True)
                 if r.status_code == 200:
-                    st.download_button(
-                        label="Download Report",
-                        data=r.content,
-                        file_name=doc_name,
-                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    )
+                    with open(doc_name, "wb") as f:
+                        f.write(r.content)
+                    with open(doc_name, "rb") as f:
+                        
+                        st.download_button(
+                            label="Download Report",
+                            data=f,
+                            file_name=doc_name,
+                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        )
                 else:
                     st.error("Failed to download the report.")
                 
