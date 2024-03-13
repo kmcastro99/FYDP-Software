@@ -17,9 +17,18 @@ def read_calibration_curve_csv(filename):
 def create_calibration_function(concentration, current_response):
     # Interpolate the calibration curve data to obtain a function
     # Use the 'fill_value' parameter to allow extrapolation
-    calibration_function = interp1d(current_response, concentration, kind='linear', fill_value="extrapolate")
+    calibration_function = interp1d(current_response, concentration, kind='linear', fill_value='extrapolate')
     
     return calibration_function
+
+def plot_calibration_curve(concentration, current_response):
+    # Plot the calibration curve and the interpolation function
+    fig, ax = plt.subplots()
+    ax.scatter(concentration, current_response, color='blue', label='Calibration data')
+    ax.set_xlabel('Concentration (nM)')
+    ax.set_ylabel('Current (nA)')
+    ax.legend()
+    return fig
 
 def read_csv_result(file_path):
     # Read the CSV file with UTF-16 encoding and flexible handling of inconsistencies
@@ -77,10 +86,7 @@ def main():
     col1, col2 = st.columns(2)
     with col1:
         st.subheader('Calibration Curve')
-        fig, ax = plt.subplots()
-        ax.scatter(calibration_concentration, calibration_current, color='blue')
-        ax.set_xlabel('Concentration (nM)')
-        ax.set_ylabel('Current (nA)')
+        fig = plot_calibration_curve(calibration_concentration, calibration_current)
         st.pyplot(fig)
 
     with col2:
@@ -92,6 +98,7 @@ def main():
     st.write("")
     st.write("")
     st.subheader('Analysis of Results')
+    st.write("Please upload the CSV file with the amperometric results to analyze.")
     cv_file = st.file_uploader("Upload Amperometric CSV", type=['csv'])
 
     if cv_file:
