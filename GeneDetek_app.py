@@ -8,11 +8,23 @@ import os
 
 def read_calibration_curve_csv(filename):
     # Read calibration curve data from CSV
-    calibration_data = pd.read_csv(filename)
-    concentration = calibration_data['Concentration']
-    current_response = calibration_data['Current']
-    
-    return concentration, current_response
+    try:
+        calibration_data = pd.read_csv(filename)
+        calibration_data = pd.read_csv(filename)
+        concentration = calibration_data['Concentration']
+        current_response = calibration_data['Current']
+        return concentration, current_response
+    except Exception as e:
+        st.error(f"Error reading {filename}: {e}")
+        return None
+
+def read_calibration_curve_csv(filename):
+    try:
+        calibration_data = pd.read_csv(filename)
+        return calibration_data
+    except Exception as e:
+        st.error(f"Error reading {filename}: {e}")
+        return None
 
 def create_calibration_function(concentration, current_response):
     # Interpolate the calibration curve data to obtain a function
@@ -70,7 +82,7 @@ def determine_result(calibration_function, steady_state_current, lod_concentrati
 
 # Process calibration file
 #new_path = r'C:\Users\karla\OneDrive\Documents\NE 4B\NE 409\FYDP-Software'
-calibration_file_path = 'FYDP-Software/data/Calibration_curve.csv'
+calibration_file_path = 'data/Calibration_curve.csv'
 calibration_concentration, calibration_current = read_calibration_curve_csv(calibration_file_path)
 
 # Streamlit app
