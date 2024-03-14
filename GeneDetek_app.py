@@ -129,8 +129,7 @@ doc_name = 'Report_Positive.docx'
 # Streamlit app
 def main():
     st.set_page_config(page_title="GeneDetek",page_icon=":dna:",layout="centered")
-    #st.title("GeneDetek :dna:")
-    st.image("./GeneDetek.png")
+    st.title("GeneDetek :dna:")
     st.write("")
     st.write("We are supporting personalized medicine for depression treatment: Your Gene, Your Medicine")
     st.write("")
@@ -203,7 +202,12 @@ def main():
                 )
             else:
                 st.error("Failed to download the report.")
-                
+    
+    st.write("")
+    st.write("")
+    st.write("")
+    st.image("./GeneDetek.png")
+    st.write("GeneDetek is a product of GeneDetek Inc. All rights reserved. Author: Karla Castro")
 
 if __name__ == '__main__':
     main()
