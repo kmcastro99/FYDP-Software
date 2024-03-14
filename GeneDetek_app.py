@@ -179,7 +179,7 @@ def main():
     st.write("")
     st.write("Please, enter the following data to generate the report:")
     st.write("")
-    collection_date = st.date_input("Collection Date", datetime.date(2024, 03, 13))
+    collection_date = st.date_input("Collection Date", datetime.date(2024, 3, 13))
     patient_id = st.text_input("Patient ID")
     patient_name = st.text_input("Patient Name")
     age = st.text_input("Age")
