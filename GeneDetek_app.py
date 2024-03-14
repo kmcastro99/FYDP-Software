@@ -52,8 +52,8 @@ def plot_calibration_curve(concentration, current_response):
     # Annotation with calibration function and statistics
     textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$\nSE = {std_err:.2f}'
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-    ax.text(-0.05, -0.95, textstr, transform=ax.transAxes, fontsize=7,
-            verticalalignment='bottom', bbox=props)
+    ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=7,
+            verticalalignment='center', bbox=props)
 
     # Labeling
     ax.set_xlabel('Concentration (nM)')
