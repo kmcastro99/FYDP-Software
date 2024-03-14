@@ -52,7 +52,7 @@ def plot_calibration_curve(concentration, current_response):
     # Annotation with calibration function and statistics
     textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$\nSE = {std_err:.2f}'
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-    ax.text(0.80, 0.10, textstr, transform=ax.transAxes, fontsize=9,
+    ax.text(0.75, 0.10, textstr, transform=ax.transAxes, fontsize=9,
             verticalalignment='center', bbox=props)
 
     # Labeling
