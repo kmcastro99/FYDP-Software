@@ -21,14 +21,14 @@ def read_calibration_curve_csv(filename):
 def create_calibration_function(concentration, current_response):
     # Interpolate the calibration curve data to obtain a function
     # Use the 'fill_value' parameter to allow extrapolation
-    current_response = current_response[2:]
-    concentration = concentration[2:]
+    current_response = current_response[2:] # To get only one zero value
+    concentration = concentration[2:] # To get only one zero value
     calibration_function = interp1d(concentration, current_response, kind='linear', fill_value='extrapolate')
     return calibration_function
 
 def plot_calibration_curve(concentration, current_response):
-    current_response = current_response[2:]
-    concentration = concentration[2:]
+    current_response = current_response[2:] #To plot only one zero value
+    concentration = concentration[2:] #To plot only one zero value
     # Plot the calibration curve and the interpolation function
     fig, ax = plt.subplots()
     ax.scatter(concentration, current_response, color='blue', label='Calibration data')
@@ -37,6 +37,7 @@ def plot_calibration_curve(concentration, current_response):
     ax.legend()
     return fig
 
+## Read csv for amperometric data
 # def read_csv_result(file_path):
 #     # Read the CSV file with UTF-16 encoding and flexible handling of inconsistencies
 #     df = pd.read_csv(file_path, encoding='utf-16', sep=',', on_bad_lines='skip', engine='python')
@@ -47,6 +48,7 @@ def plot_calibration_curve(concentration, current_response):
 
 #     return numeric_data
 
+# Read CSV for CV data
 def read_csv_result(file_path):
     try:
         # Read the file with the appropriate handling for bad lines.
@@ -57,18 +59,20 @@ def read_csv_result(file_path):
         print(f"An error occurred: {e}")
         return None
 
-def determine_steady_state_current(amperometric_data, window_size=10):
-    # Calculate the moving average to smooth out the data
-    moving_avg = amperometric_data.rolling(window=window_size).mean()
-    # Determine the steady-state current as the average of the last few points
-    steady_state_current = moving_avg.iloc[-window_size:].mean()
-    # Calculate the standard deviation of the last few points as a measure of noise
-    noise = amperometric_data.iloc[-window_size:].std()
-    # Calculate the signal-to-noise ratio (SNR)
-    snr = steady_state_current / noise if noise > 0 else np.inf
+# # Only used for amperometric data
+# def determine_steady_state_current(amperometric_data, window_size=10):
+#     # Calculate the moving average to smooth out the data
+#     moving_avg = amperometric_data.rolling(window=window_size).mean()
+#     # Determine the steady-state current as the average of the last few points
+#     steady_state_current = moving_avg.iloc[-window_size:].mean()
+#     # Calculate the standard deviation of the last few points as a measure of noise
+#     noise = amperometric_data.iloc[-window_size:].std()
+#     # Calculate the signal-to-noise ratio (SNR)
+#     snr = steady_state_current / noise if noise > 0 else np.inf
 
-    return steady_state_current, snr
+#     return steady_state_current, snr
 
+# Used to determine peak in CV data
 def determine_peak_current(data):
     # Find the peak current across all 'µA' columns
     peak_current = data.max().max()  # The highest current value across all scans
@@ -162,21 +166,21 @@ def main():
             st.write("Generating report...")
             st.write("Report generated successfully!")
             st.write("Download the report below.")
-            if st.button("Download Report"):
-                r = requests.get(doc_url, stream=True)
-                if r.status_code == 200:
-                    with open(doc_name, "wb") as f:
-                        f.write(r.content)
-                    with open(doc_name, "rb") as f:
+    if st.button("Download Report"):
+        r = requests.get(doc_url, stream=True)
+        if r.status_code == 200:
+            with open(doc_name, "wb") as f:
+                f.write(r.content)
+            with open(doc_name, "rb") as f:
                         
-                        st.download_button(
-                            label="Download Report",
-                            data=f,
-                            file_name=doc_name,
-                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                        )
-                else:
-                    st.error("Failed to download the report.")
+            st.download_button(
+            label="Download Report",
+            data=f,
+            file_name=doc_name,
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+        else:
+            st.error("Failed to download the report.")
                 
 
 if __name__ == '__main__':

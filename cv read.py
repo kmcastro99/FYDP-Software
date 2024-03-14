@@ -21,7 +21,7 @@ def determine_peak_current(data):
     return peak_current
 
 # Use a raw string for the file path or double backslashes to avoid escape sequence issues
-file_path = r'C:\Users\karla\Downloads\E2_CV_8nM.csv'  # Adjust this path as needed
+file_path = r'C:\Users\karla\Downloads\missmastch2.csv'  # Adjust this path as needed
 data = read_csv_result(file_path)
 # print(data)
 peak_current = determine_peak_current(data)
