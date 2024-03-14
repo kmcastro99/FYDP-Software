@@ -39,7 +39,7 @@ def plot_calibration_curve(concentration, current_response):
     y_fit = calibration_function(x_fit)
 
     # Calculate the confidence intervals
-    ci = std_err * t.ppf((1 + 0.95) / 2., len(concentration) - 1)
+    # ci = std_err * t.ppf((1 + 0.95) / 2., len(concentration) - 1)
 
     # Plot the calibration data
     fig, ax = plt.subplots()
