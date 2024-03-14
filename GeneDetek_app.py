@@ -43,7 +43,7 @@ def plot_calibration_curve(concentration, current_response):
 
     # Plot the calibration data
     fig, ax = plt.subplots()
-    ax.scatter(concentration, current_response, color='blue', label='Calibration data')
+    ax.scatter(concentration[2:], current_response[2:], color='blue', label='Calibration data')
     ax.plot(x_fit, y_fit, color='red', label='Fitted line')
 
     # Fill between the confidence intervals
@@ -158,7 +158,7 @@ def main():
             # Process CV file
             result_currents = read_csv_result(cv_file)
             # current_values = result_currents.iloc[5:]
-            calibration_func = create_calibration_function(calibration_concentration, calibration_current)
+            calibration_func, slope, intercept, r_value, std_err = create_calibration_function(calibration_concentration, calibration_current)
 
             # Determine steady-state current and SNR
             # steady_state_current, snr = determine_steady_state_current(current_values)
