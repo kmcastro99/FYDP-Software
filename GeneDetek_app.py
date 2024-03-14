@@ -130,6 +130,7 @@ doc_name = 'Report_Positive.docx'
 def main():
     st.set_page_config(page_title="GeneDetek",page_icon=":dna:",layout="centered")
     st.title("GeneDetek :dna:")
+    st.image("./GeneDetek.png")
     st.write("")
     st.write("We are supporting personalized medicine for depression treatment: Your Gene, Your Medicine")
     st.write("")
