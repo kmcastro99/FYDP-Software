@@ -166,20 +166,19 @@ def main():
             st.write("Generating report...")
             st.write("Report generated successfully!")
             st.write("Download the report below.")
-    if st.button("Download Report"):
-        r = requests.get(doc_url, stream=True)
-        if r.status_code == 200:
-            with open(doc_name, "wb") as f:
-                f.write(r.content)
-            with open(doc_name, "rb") as f:
-                st.download_button(
-                    label="Download Report",
-                    data=f,
-                    file_name=doc_name,
-                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    )
-        else:
-            st.error("Failed to download the report.")
+            r = requests.get(doc_url, stream=True)
+            if r.status_code == 200:
+                with open(doc_name, "wb") as f:
+                    f.write(r.content)
+                with open(doc_name, "rb") as f:
+                    st.download_button(
+                        label="Download Report",
+                        data=f,
+                        file_name=doc_name,
+                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        )
+            else:
+                st.error("Failed to download the report.")
                 
 
 if __name__ == '__main__':
