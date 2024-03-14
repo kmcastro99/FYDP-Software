@@ -194,15 +194,12 @@ def main():
             st.write("Download the report below.")
             r = requests.get(doc_url, stream=True)
             if r.status_code == 200:
-                with open(doc_name, "wb") as f:
-                    f.write(r.content)
-                with open(doc_name, "rb") as f:
-                    st.download_button(
-                        label="Download Report",
-                        data=f,
-                        file_name=doc_name,
-                        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                        )
+                st.download_button(
+                label="Download Report",
+                data=r.content,
+                file_name=doc_name,
+                mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                )
             else:
                 st.error("Failed to download the report.")
                 
