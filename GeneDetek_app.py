@@ -124,8 +124,8 @@ def main():
     st.write("")
     st.write("")
     st.subheader('Analysis of Results')
-    st.write("Please upload the CSV file with the amperometric results to analyze.")
-    cv_file = st.file_uploader("Upload Amperometric CSV", type=['csv'])
+    st.write("Please upload the CSV file with the results to analyze.")
+    cv_file = st.file_uploader("Upload CV CSV with results", type=['csv'])
 
     if cv_file:
         if st.button('Calculate Result'):
