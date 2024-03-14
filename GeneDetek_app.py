@@ -124,7 +124,7 @@ def determine_result(calibration_function, peak_current, lod_concentration):
 #new_path = r'C:\Users\karla\OneDrive\Documents\NE 4B\NE 409\FYDP-Software'
 calibration_file_path = 'data/Calibration_curve.csv'
 calibration_concentration, calibration_current = read_calibration_curve_csv(calibration_file_path)
-doc_url = 'https://github.com/kmcastro99/FYDP-Software/blob/388595c03638b3932c6110368186b42ae759769a/Report/Report_Positive.docx'
+doc_url = 'https://github.com/kmcastro99/FYDP-Software/raw/388595c03638b3932c6110368186b42ae759769a/Report/Report_Positive.docx'
 doc_name = 'Report_Positive.docx'
 # Streamlit app
 def main():
