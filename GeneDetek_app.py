@@ -207,8 +207,7 @@ def main():
     st.write("")
     st.write("")
     st.image("./GeneDetek.png")
-    st.write("The GeneDetek App is a product of GeneDetek. All rights reserved")
-    #st.write("Author: Karla Castro")
+    st.write("GeneDetek is a product of GeneDetek Inc. All rights reserved. Author: Karla Castro")
 
 if __name__ == '__main__':
     main()
