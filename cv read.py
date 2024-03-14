@@ -21,10 +21,12 @@ def determine_peak_current(data):
     return peak_current
 
 # Use a raw string for the file path or double backslashes to avoid escape sequence issues
-file_path = r'C:\Users\karla\Downloads\missmastch2.csv'  # Adjust this path as needed
+file_path = r'C:\Users\karla\Downloads\CV_blank.csv'  # Adjust this path as needed
 data = read_csv_result(file_path)
 # print(data)
 peak_current = determine_peak_current(data)
+
+print(peak_current)
 # print(f"Peak current: {peak_current:.2f} µA")
 def read_calibration_curve_csv(filename):
     # Read calibration curve data from CSV
@@ -41,9 +43,9 @@ def calibration_function(concentration, current_response):
     calibration_function = interp1d(concentration, current_response, kind='linear', fill_value='extrapolate')
     return calibration_function
 
-print(peak_current)
+
 data2 = read_calibration_curve_csv(r'C:\Users\karla\Downloads\Calibration_curve.csv')
 concentration = data2[0]
 current_response = data2[1]
-function_cal = calibration_function(concentration, current_response)
-print(function_cal(peak_current))
+# function_cal = calibration_function(concentration, current_response)
+# print(function_cal(peak_current))
