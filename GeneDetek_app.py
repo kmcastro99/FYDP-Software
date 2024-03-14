@@ -57,7 +57,7 @@ def plot_calibration_curve(concentration, current_response):
 
     # Labeling
     ax.set_xlabel('Concentration (nM)')
-    ax.set_ylabel('Current (nA)')
+    ax.set_ylabel('Current (uA)')
     ax.legend()
     ax.grid(True)
 
