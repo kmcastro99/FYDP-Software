@@ -44,6 +44,7 @@ def plot_calibration_curve(concentration, current_response):
     # Plot the calibration data
     fig, ax = plt.subplots()
     ax.scatter(concentration[2:], current_response[2:], color='blue', label='Calibration data')
+    ax.plot(concentration[2:], current_response[2:], color='blue')
     ax.plot(x_fit, y_fit, color='red', label='Fitted line')
 
     # Fill between the confidence intervals
@@ -180,7 +181,7 @@ def main():
     with col2:
         st.subheader('Limit of Detection (LOD)')
         lod_concentration = calculate_lod_from_calibration(calibration_concentration, calibration_current)
-        st.write(f"Our Sensor has a LOD of: {round(lod_concentration,2)} nM")
+        st.write(f"The GeneDetek Sensor has a LOD of: {round(lod_concentration,2)} nM")
 
     # File uploader allows the user to upload CSV files
     st.write("")
@@ -243,7 +244,7 @@ def main():
     st.write("")
     st.write("")
     st.image("./GeneDetek.png")
-    st.write("GeneDetek is a product of GeneDetek Inc. All rights reserved. Author: Karla Castro")
+    st.write("GeneDetek is a product of GeneDetek Inc. All rights reserved.")
 
 if __name__ == '__main__':
     main()
