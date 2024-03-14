@@ -53,7 +53,7 @@ def plot_calibration_curve(concentration, current_response):
     textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$\nSE = {std_err:.2f}'
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
     ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=14,
-            verticalalignment='top', bbox=props)
+            verticalalignment='bottom', bbox=props)
 
     # Labeling
     ax.set_xlabel('Concentration (nM)')
@@ -168,9 +168,9 @@ def main():
             
             # Display result
             if overall_result == "Positive":
-                st.error(f"{overall_result}")
-            else:
                 st.success(f"{overall_result}")
+            else:
+                st.error(f"{overall_result}")
         else:
             st.write("Upload a CSV file with the results to enable the 'Calculate Result' button.")
 
