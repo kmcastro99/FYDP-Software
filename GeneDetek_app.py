@@ -186,7 +186,7 @@ def main():
     gender = st.text_input("Gender")
 
     if st.button("Generate Report"):
-        if collection_date == "" or patient_id == "" or patient_name == "" or age == "" or gender == "":
+        if patient_id == "" or patient_name == "" or age == "" or gender == "":
             st.error("Please enter the missing information")
         else:
             st.write("Generating report...")
