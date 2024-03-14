@@ -47,10 +47,10 @@ def plot_calibration_curve(concentration, current_response):
     ax.plot(x_fit, y_fit, color='red', label='Fitted line')
 
     # Fill between the confidence intervals
-    ax.fill_between(x_fit, y_fit - ci, y_fit + ci, color='pink', alpha=0.2, label='95% Confidence Interval')
+    #ax.fill_between(x_fit, y_fit - ci, y_fit + ci, color='pink', alpha=0.5, label='95% Confidence Interval')
 
     # Annotation with calibration function and statistics
-    textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$\nSE = {std_err:.2f}'
+    textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$'
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
     ax.text(0.75, 0.10, textstr, transform=ax.transAxes, fontsize=9,
             verticalalignment='center', bbox=props)
@@ -106,7 +106,7 @@ def determine_peak_current(data):
 
 def calculate_lod_from_calibration(concentration, current_response):
     # Perform a linear regression to get the slope (S) and intercept
-    slope, intercept, r_value, p_value, std_err = linregress(concentration, current_response)
+    calibration_function, slope, intercept, r_value, std_err = create_calibration_function(concentration, current_response)
     # Calculate the standard deviation of the response (σ) at the lowest concentration
     std_response =  np.std(current_response[concentration == 0])
     # Calculate the LOD using the 3.3σ/S formula
