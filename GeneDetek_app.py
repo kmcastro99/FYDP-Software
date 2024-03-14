@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
-from scipy.stats import linregress
-import base64
+from scipy.stats import linregress, t
 import requests
+import datetime
 
 def read_calibration_curve_csv(filename):
     # Read calibration curve data from CSV
@@ -23,18 +23,44 @@ def create_calibration_function(concentration, current_response):
     # Use the 'fill_value' parameter to allow extrapolation
     current_response = current_response[2:] # To get only one zero value
     concentration = concentration[2:] # To get only one zero value
-    calibration_function = interp1d(concentration, current_response, kind='linear', fill_value='extrapolate')
-    return calibration_function
+    # Fit a linear regression model
+    slope, intercept, r_value, p_value, std_err = linregress(concentration, current_response)
+    # Create a function using the slope and intercept
+    calibration_function = lambda x: slope * x + intercept
+    
+    return calibration_function, slope, intercept, r_value, std_err
 
 def plot_calibration_curve(concentration, current_response):
-    current_response = current_response[2:] #To plot only one zero value
-    concentration = concentration[2:] #To plot only one zero value
-    # Plot the calibration curve and the interpolation function
+    # Fit the calibration curve
+    calibration_function, slope, intercept, r_value, std_err = create_calibration_function(concentration, current_response)
+
+    # Generate points for the fitted line
+    x_fit = np.linspace(concentration.min(), concentration.max(), 100)
+    y_fit = calibration_function(x_fit)
+
+    # Calculate the confidence intervals
+    ci = std_err * t.ppf((1 + 0.95) / 2., len(concentration) - 1)
+
+    # Plot the calibration data
     fig, ax = plt.subplots()
     ax.scatter(concentration, current_response, color='blue', label='Calibration data')
+    ax.plot(x_fit, y_fit, color='red', label='Fitted line')
+
+    # Fill between the confidence intervals
+    ax.fill_between(x_fit, y_fit - ci, y_fit + ci, color='pink', alpha=0.2, label='95% Confidence Interval')
+
+    # Annotation with calibration function and statistics
+    textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$\nSE = {std_err:.2f}'
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+    ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=14,
+            verticalalignment='top', bbox=props)
+
+    # Labeling
     ax.set_xlabel('Concentration (nM)')
     ax.set_ylabel('Current (nA)')
     ax.legend()
+    ax.grid(True)
+
     return fig
 
 ## Read csv for amperometric data
@@ -153,7 +179,7 @@ def main():
     st.write("")
     st.write("Please, enter the following data to generate the report:")
     st.write("")
-    collection_date = st.text_input("Collection Date")
+    collection_date = st.date_input("Collection Date", datetime.date(2024, 03, 13))
     patient_id = st.text_input("Patient ID")
     patient_name = st.text_input("Patient Name")
     age = st.text_input("Age")
