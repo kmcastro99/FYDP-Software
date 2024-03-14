@@ -172,13 +172,12 @@ def main():
             with open(doc_name, "wb") as f:
                 f.write(r.content)
             with open(doc_name, "rb") as f:
-                        
-            st.download_button(
-            label="Download Report",
-            data=f,
-            file_name=doc_name,
-            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        )
+                st.download_button(
+                    label="Download Report",
+                    data=f,
+                    file_name=doc_name,
+                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    )
         else:
             st.error("Failed to download the report.")
                 
