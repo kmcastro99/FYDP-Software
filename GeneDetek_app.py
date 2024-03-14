@@ -43,9 +43,9 @@ def plot_calibration_curve(concentration, current_response):
 
     # Plot the calibration data
     fig, ax = plt.subplots()
-    ax.scatter(concentration[2:], current_response[2:], color='blue', label='Calibration data')
-    ax.plot(concentration[2:], current_response[2:], color='blue')
-    ax.plot(x_fit, y_fit, color='red', label='Fitted line')
+    ax.scatter(concentration[2:], current_response[2:], color='cornflowerblue', label='Calibration data')
+    #ax.plot(concentration[2:], current_response[2:], color='blue')
+    ax.plot(x_fit, y_fit, color='royalblue', label='Fitted line')
 
     # Fill between the confidence intervals
     #ax.fill_between(x_fit, y_fit - ci, y_fit + ci, color='pink', alpha=0.5, label='95% Confidence Interval')
@@ -60,7 +60,7 @@ def plot_calibration_curve(concentration, current_response):
     ax.set_xlabel('Concentration (nM)')
     ax.set_ylabel('Current (uA)')
     ax.legend()
-    ax.grid(True)
+    ax.grid(False)
 
     return fig
 
