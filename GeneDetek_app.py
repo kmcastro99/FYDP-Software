@@ -30,62 +30,26 @@ def create_calibration_function(concentration, current_response):
     
     return calibration_function, slope, intercept, r_value, std_err
 
-# def plot_calibration_curve(concentration, current_response):
-#     # Fit the calibration curve
-#     calibration_function, slope, intercept, r_value, std_err = create_calibration_function(concentration, current_response)
-
-#     # Generate points for the fitted line
-#     x_fit = np.linspace(concentration.min(), concentration.max(), 100)
-#     y_fit = calibration_function(x_fit)
-
-#     # Calculate the confidence intervals
-#     # ci = std_err * t.ppf((1 + 0.95) / 2., len(concentration) - 1)
-
-#     # Plot the calibration data
-#     fig, ax = plt.subplots()
-#     ax.scatter(concentration[2:], current_response[2:], color='blue', label='Calibration data')
-#     ax.plot(x_fit, y_fit, color='red', label='Fitted line')
-
-#     # Fill between the confidence intervals
-#     #ax.fill_between(x_fit, y_fit - ci, y_fit + ci, color='pink', alpha=0.5, label='95% Confidence Interval')
-
-#     # Annotation with calibration function and statistics
-#     textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$'
-#     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-#     ax.text(0.75, 0.10, textstr, transform=ax.transAxes, fontsize=9,
-#             verticalalignment='center', bbox=props)
-
-#     # Labeling
-#     ax.set_xlabel('Concentration (nM)')
-#     ax.set_ylabel('Current (uA)')
-#     ax.legend()
-#     ax.grid(True)
-
-#     return fig
-
 def plot_calibration_curve(concentration, current_response):
     # Fit the calibration curve
     calibration_function, slope, intercept, r_value, std_err = create_calibration_function(concentration, current_response)
-    # Create a linear space for concentration in log space and then calculate the corresponding fitted response
-    x_fit = np.logspace(np.log10(concentration.min()), np.log10(concentration.max()), 100)
-    y_fit = 10**(slope * np.log10(x_fit) + intercept)
+
+    # Generate points for the fitted line
+    x_fit = np.linspace(concentration.min(), concentration.max(), 100)
+    y_fit = calibration_function(x_fit)
 
     # Calculate the confidence intervals
-    #ci = std_err * t.ppf((1 + 0.95) / 2., len(concentration) - 2)
+    # ci = std_err * t.ppf((1 + 0.95) / 2., len(concentration) - 1)
 
     # Plot the calibration data
     fig, ax = plt.subplots()
     ax.scatter(concentration[2:], current_response[2:], color='blue', label='Calibration data')
-
-    # Convert the slope and intercept back to linear space for annotation
     ax.plot(x_fit, y_fit, color='red', label='Fitted line')
-    #ax.fill_between(x_fit, 10**((slope - ci) * np.log10(x_fit) + intercept), 10**((slope + ci) * np.log10(x_fit) + intercept), color='pink', alpha=0.2, label='95% Confidence Interval')
 
-    # Set the scale to logarithmic
-    ax.set_xscale('log')
-    ax.set_yscale('log')
+    # Fill between the confidence intervals
+    #ax.fill_between(x_fit, y_fit - ci, y_fit + ci, color='pink', alpha=0.5, label='95% Confidence Interval')
 
-    # Annotate with calibration function and statistics
+    # Annotation with calibration function and statistics
     textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$'
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
     ax.text(0.75, 0.10, textstr, transform=ax.transAxes, fontsize=9,
@@ -98,6 +62,42 @@ def plot_calibration_curve(concentration, current_response):
     ax.grid(True)
 
     return fig
+
+# def plot_calibration_curve(concentration, current_response):
+#     # Fit the calibration curve
+#     calibration_function, slope, intercept, r_value, std_err = create_calibration_function(concentration, current_response)
+#     # Create a linear space for concentration in log space and then calculate the corresponding fitted response
+#     x_fit = np.logspace(np.log10(concentration.min()), np.log10(concentration.max()), 100)
+#     y_fit = 10**(slope * np.log10(x_fit) + intercept)
+
+#     # Calculate the confidence intervals
+#     #ci = std_err * t.ppf((1 + 0.95) / 2., len(concentration) - 2)
+
+#     # Plot the calibration data
+#     fig, ax = plt.subplots()
+#     ax.scatter(concentration[2:], current_response[2:], color='blue', label='Calibration data')
+
+#     # Convert the slope and intercept back to linear space for annotation
+#     ax.plot(x_fit, y_fit, color='red', label='Fitted line')
+#     #ax.fill_between(x_fit, 10**((slope - ci) * np.log10(x_fit) + intercept), 10**((slope + ci) * np.log10(x_fit) + intercept), color='pink', alpha=0.2, label='95% Confidence Interval')
+
+#     # Set the scale to logarithmic
+#     ax.set_xscale('log')
+#     ax.set_yscale('log')
+
+#     # Annotate with calibration function and statistics
+#     textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$'
+#     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+#     ax.text(0.75, 0.10, textstr, transform=ax.transAxes, fontsize=9,
+#             verticalalignment='center', bbox=props)
+
+#     # Labeling
+#     ax.set_xlabel('Concentration (nM)')
+#     ax.set_ylabel('Current (uA)')
+#     ax.legend()
+#     ax.grid(True)
+
+#     return fig
 
 ## Read csv for amperometric data
 # def read_csv_result(file_path):
