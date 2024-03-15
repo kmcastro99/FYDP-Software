@@ -147,7 +147,7 @@ def calculate_lod_from_calibration(concentration, current_response):
     # Calculate the standard deviation of the response (σ) at the lowest concentration
     std_response =  np.std(current_response[concentration == 0])
     # Calculate the LOD using the 3.3σ/S formula
-    lod = 3.3 * std_response / slope
+    lod = 3.3 * (std_response / slope)
     return lod, slope, std_response
 
 
