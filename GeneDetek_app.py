@@ -43,7 +43,7 @@ def plot_calibration_curve(concentration, current_response):
 
     # Plot the calibration data
     fig, ax = plt.subplots()
-    ax.scatter(concentration[1:], current_response[1:], color='cornflowerblue', label='Calibration data')
+    ax.scatter(concentration, current_response, color='cornflowerblue', label='Calibration data')
     #ax.plot(concentration[1:], current_response[1:], color='blue')
     ax.plot(x_fit, y_fit, color='royalblue', label='Fitted line')
 
@@ -147,8 +147,8 @@ def calculate_lod_from_calibration(concentration, current_response):
     # Calculate the standard deviation of the response (σ) at the lowest concentration
     std_response =  np.std(current_response[concentration == 0])
     # Calculate the LOD using the 3.3σ/S formula
-    lod = 3.3 * std_err / slope
-    return lod
+    lod = 3.3 * std_response / slope
+    return lod, slope, std_response
 
 
 def determine_result(calibration_function, peak_current, lod_concentration):
@@ -180,8 +180,10 @@ def main():
 
     with col2:
         st.subheader('Limit of Detection (LOD)')
-        lod_concentration = calculate_lod_from_calibration(calibration_concentration, calibration_current)
+        lod_concentration,slope, std_response = calculate_lod_from_calibration(calibration_concentration, calibration_current)
         st.write(f"The GeneDetek Sensor has a LOD of: {round(lod_concentration,2)} nM")
+        st.write(f"The slope of the calibration curve is: {round(slope,2)}")
+        st.write(f"The standard deviation of the response at the lowest concentrations is: {round(std_response,2)}")
 
     # File uploader allows the user to upload CSV files
     st.write("")
