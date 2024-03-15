@@ -181,9 +181,9 @@ def main():
     with col2:
         st.subheader('Limit of Detection (LOD)')
         lod_concentration,slope, std_response = calculate_lod_from_calibration(calibration_concentration, calibration_current)
-        st.write(f"The GeneDetek Sensor has a LOD of: {round(lod_concentration,2)} nM")
-        st.write(f"The slope of the calibration curve is: {round(slope,2)}")
-        st.write(f"The standard deviation of the response at the lowest concentrations is: {round(std_response,2)}")
+        st.write(f"The GeneDetek Sensor has a LOD of: {round(lod_concentration,3)} nM")
+        st.write(f"The slope of the calibration curve is: {round(slope,3)}")
+        st.write(f"The standard deviation of the response at the lowest concentrations is: {round(std_response,3)}")
 
     # File uploader allows the user to upload CSV files
     st.write("")
