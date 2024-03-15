@@ -26,7 +26,7 @@ data = read_csv_result(file_path)
 # print(data)
 peak_current = determine_peak_current(data)
 
-print(peak_current)
+#print(peak_current)
 # print(f"Peak current: {peak_current:.2f} µA")
 def read_calibration_curve_csv(filename):
     # Read calibration curve data from CSV
@@ -49,3 +49,25 @@ concentration = data2[0]
 current_response = data2[1]
 # function_cal = calibration_function(concentration, current_response)
 # print(function_cal(peak_current))
+
+def read_csv_result_from_DPV(file_path):
+    try:
+        # Read the file with the appropriate handling for bad lines.
+        # The 'on_bad_lines' parameter is set to 'skip' to ignore problematic lines.
+        data = pd.read_csv(file_path, delimiter=',', skiprows=6, usecols = [1], on_bad_lines='skip',encoding='utf-16')
+        
+        # Extract columns that contain 'µA' in their header after skipping the appropriate rows
+        #current_data = data.filter(regex='µA').apply(pd.to_numeric, errors='coerce').dropna()
+        return data
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
+print(read_csv_result_from_DPV(r'C:\Users\karla\Downloads\DPV_Sample_csv.csv'))
+def determine_peak_current(data):
+    # Find the peak current across all 'µA' columns
+    peak_current = data.max().max()  # The highest current value across all scans
+    return peak_current
+
+peak_dpv = determine_peak_current(read_csv_result_from_DPV(r'C:\Users\karla\Downloads\DPV_Sample_csv.csv'))
+print(peak_dpv)
