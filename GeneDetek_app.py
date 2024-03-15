@@ -21,8 +21,8 @@ def read_calibration_curve_csv(filename):
 def create_calibration_function(concentration, current_response):
     # Interpolate the calibration curve data to obtain a function
     # Use the 'fill_value' parameter to allow extrapolation
-    current_response = current_response[1:] # To get only one zero value
-    concentration = concentration[1:] # To get only one zero value
+    current_response = current_response# To get only one zero value
+    concentration = concentration# To get only one zero value
     # Fit a linear regression model
     slope, intercept, r_value, p_value, std_err = linregress(concentration, current_response)
     # Create a function using the slope and intercept
@@ -147,7 +147,7 @@ def calculate_lod_from_calibration(concentration, current_response):
     # Calculate the standard deviation of the response (σ) at the lowest concentration
     std_response =  np.std(current_response[concentration == 0])
     # Calculate the LOD using the 3.3σ/S formula
-    lod = 3.3 * std_response / slope
+    lod = 3.3 * std_err / slope
     return lod
 
 
