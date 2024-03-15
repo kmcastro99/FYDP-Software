@@ -21,8 +21,8 @@ def read_calibration_curve_csv(filename):
 def create_calibration_function(concentration, current_response):
     # Interpolate the calibration curve data to obtain a function
     # Use the 'fill_value' parameter to allow extrapolation
-    current_response = current_response[2:] # To get only one zero value
-    concentration = concentration[2:] # To get only one zero value
+    current_response = current_response# To get only one zero value
+    concentration = concentration # To get only one zero value
     # Fit a linear regression model
     slope, intercept, r_value, p_value, std_err = linregress(concentration, current_response)
     # Create a function using the slope and intercept
@@ -43,7 +43,7 @@ def plot_calibration_curve(concentration, current_response):
 
     # Plot the calibration data
     fig, ax = plt.subplots()
-    ax.scatter(concentration[1:], current_response[1:], color='cornflowerblue', label='Calibration data')
+    ax.scatter(concentration[2:], current_response[2:], color='cornflowerblue', label='Calibration data')
     #ax.plot(concentration[1:], current_response[1:], color='blue')
     ax.plot(x_fit, y_fit, color='royalblue', label='Fitted line')
 
