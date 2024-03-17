@@ -43,7 +43,7 @@ def plot_calibration_curve(concentration, current_response):
 
     # Plot the calibration data
     fig, ax = plt.subplots()
-    ax.scatter(concentration, current_response, color='cornflowerblue', label='Calibration data')
+    ax.scatter(concentration[2:], current_response[2:], color='cornflowerblue', label='Calibration data')
     #ax.plot(concentration[1:], current_response[1:], color='blue')
     ax.plot(x_fit, y_fit, color='royalblue', label='Fitted line')
 
