@@ -21,8 +21,8 @@ def read_calibration_curve_csv(filename):
 def create_calibration_function(concentration, current_response):
     # Interpolate the calibration curve data to obtain a function
     # Use the 'fill_value' parameter to allow extrapolation
-    current_response = current_response[2:]# To get only one zero value
-    concentration = concentration[2:]# To get only one zero value
+    current_response = current_response[1:]# To get only one zero value
+    concentration = concentration[1:]# To get only one zero value
     # Fit a linear regression model
     slope, intercept, r_value, p_value, std_err = linregress(concentration, current_response)
     # Create a function using the slope and intercept
@@ -38,17 +38,11 @@ def plot_calibration_curve(concentration, current_response):
     x_fit = np.linspace(concentration.min(), concentration.max(), 100)
     y_fit = calibration_function(x_fit)
 
-    # Calculate the confidence intervals
-    # ci = std_err * t.ppf((1 + 0.95) / 2., len(concentration) - 1)
-
     # Plot the calibration data
     fig, ax = plt.subplots()
-    ax.scatter(concentration[2:], current_response[2:], color='cornflowerblue', label='Calibration data')
+    ax.scatter(concentration[1:], current_response[1:], color='cornflowerblue', label='Calibration data')
     #ax.plot(concentration[1:], current_response[1:], color='blue')
     ax.plot(x_fit, y_fit, color='royalblue', label='Fitted line')
-
-    # Fill between the confidence intervals
-    #ax.fill_between(x_fit, y_fit - ci, y_fit + ci, color='pink', alpha=0.5, label='95% Confidence Interval')
 
     # Annotation with calibration function and statistics
     textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$'
@@ -64,53 +58,6 @@ def plot_calibration_curve(concentration, current_response):
 
     return fig
 
-# def plot_calibration_curve(concentration, current_response):
-#     # Fit the calibration curve
-#     calibration_function, slope, intercept, r_value, std_err = create_calibration_function(concentration, current_response)
-#     # Create a linear space for concentration in log space and then calculate the corresponding fitted response
-#     x_fit = np.logspace(np.log10(concentration.min()), np.log10(concentration.max()), 100)
-#     y_fit = 10**(slope * np.log10(x_fit) + intercept)
-
-#     # Calculate the confidence intervals
-#     #ci = std_err * t.ppf((1 + 0.95) / 2., len(concentration) - 2)
-
-#     # Plot the calibration data
-#     fig, ax = plt.subplots()
-#     ax.scatter(concentration[1:], current_response[1:], color='blue', label='Calibration data')
-
-#     # Convert the slope and intercept back to linear space for annotation
-#     ax.plot(x_fit, y_fit, color='red', label='Fitted line')
-#     #ax.fill_between(x_fit, 10**((slope - ci) * np.log10(x_fit) + intercept), 10**((slope + ci) * np.log10(x_fit) + intercept), color='pink', alpha=0.2, label='95% Confidence Interval')
-
-#     # Set the scale to logarithmic
-#     ax.set_xscale('log')
-#     ax.set_yscale('log')
-
-#     # Annotate with calibration function and statistics
-#     textstr = f'y = {slope:.2f}x + {intercept:.2f}\n$R^2 = {r_value**2:.2f}$'
-#     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-#     ax.text(0.75, 0.10, textstr, transform=ax.transAxes, fontsize=9,
-#             verticalalignment='center', bbox=props)
-
-#     # Labeling
-#     ax.set_xlabel('Concentration (nM)')
-#     ax.set_ylabel('Current (uA)')
-#     ax.legend()
-#     ax.grid(True)
-
-#     return fig
-
-## Read csv for amperometric data
-# def read_csv_result(file_path):
-#     # Read the CSV file with UTF-16 encoding and flexible handling of inconsistencies
-#     df = pd.read_csv(file_path, encoding='utf-16', sep=',', on_bad_lines='skip', engine='python')
-#     # Skip the rows that are not numeric
-#     numeric_data = pd.to_numeric(df.iloc[:, 1], errors='coerce')
-#     # Drop NaN values that result from coercion errors (i.e., non-numeric data)
-#     numeric_data = numeric_data.dropna().reset_index(drop=True)
-
-#     return numeric_data
-
 # Read CSV for CV data
 def read_csv_result(file_path):
     try:
@@ -121,19 +68,6 @@ def read_csv_result(file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-
-# # Only used for amperometric data
-# def determine_steady_state_current(amperometric_data, window_size=10):
-#     # Calculate the moving average to smooth out the data
-#     moving_avg = amperometric_data.rolling(window=window_size).mean()
-#     # Determine the steady-state current as the average of the last few points
-#     steady_state_current = moving_avg.iloc[-window_size:].mean()
-#     # Calculate the standard deviation of the last few points as a measure of noise
-#     noise = amperometric_data.iloc[-window_size:].std()
-#     # Calculate the signal-to-noise ratio (SNR)
-#     snr = steady_state_current / noise if noise > 0 else np.inf
-
-#     return steady_state_current, snr
 
 # Used to determine peak in CV data
 def determine_peak_current(data):
