@@ -138,7 +138,8 @@ def main():
             peak_current = determine_peak_current(result_currents)
             # Determine result
             overall_result = determine_result(calibration_func, peak_current, lod_concentration)
-            
+            st.write(f"Peak current: {peak_current:.2f} µA")
+            st.write(f"Concentration: {calibration_func(peak_current):.2f} nM")
             # Display result
             if overall_result == "Positive":
                 st.success(f"{overall_result}")
