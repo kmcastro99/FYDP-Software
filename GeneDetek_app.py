@@ -26,7 +26,7 @@ def create_calibration_function(concentration, current_response):
     # Fit a linear regression model
     slope, intercept, r_value, p_value, std_err = linregress(concentration, current_response)
     # Create a function using the slope and intercept
-    calibration_function = lambda x: slope * x + intercept
+    calibration_function = lambda y: slope * y + intercept
     
     return calibration_function, slope, intercept, r_value, std_err
 
