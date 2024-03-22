@@ -26,7 +26,7 @@ def create_calibration_function(concentration, current_response):
     # Fit a linear regression model
     slope, intercept, r_value, p_value, std_err = linregress(concentration, current_response)
     # Create a function using the slope and intercept
-    calibration_function = lambda y: (y - intercept)/slope
+    calibration_function = lambda y: (y - intercept)/y
     
     return calibration_function, slope, intercept, r_value, std_err
 
@@ -36,7 +36,7 @@ def plot_calibration_curve(concentration, current_response):
 
     # Generate points for the fitted line
     x_fit = np.linspace(concentration.min(), concentration.max(), 100)
-    y_fit = calibration_function(x_fit)
+    y_fit = np.linspace(current_response.min(), current_response.max(), 100)
 
     # Plot the calibration data
     fig, ax = plt.subplots()
