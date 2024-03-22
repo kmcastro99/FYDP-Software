@@ -26,7 +26,7 @@ def create_calibration_function(concentration, current_response):
     # Fit a linear regression model
     slope, intercept, r_value, p_value, std_err = linregress(concentration, current_response)
     # Create a function using the slope and intercept
-    calibration_function = lambda y: (y - intercept)/y
+    calibration_function = lambda y: (y - intercept)/slope
     
     return calibration_function, slope, intercept, r_value, std_err
 
@@ -139,7 +139,7 @@ def main():
             # Determine result
             overall_result = determine_result(calibration_func, peak_current, lod_concentration)
             st.write(f"Peak current: {peak_current:.2f} µA")
-            st.write(f"Concentration: {calibration_func(peak_current):.2f} nM")
+            # st.write(f"Concentration: {calibration_func(peak_current):.2f} nM")
             # Display result
             if overall_result == "Positive":
                 st.success(f"{overall_result}")
